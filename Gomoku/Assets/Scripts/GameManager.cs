@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +23,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject quad_B;
     [SerializeField] private GameObject quad_W;
 
+    [Header("UI")]
+    [SerializeField] private GameObject winPanel;
+    [SerializeField] private TMP_Text resultTXT;
+
     private Renderer quad_B_Ren;
     private Renderer quad_W_Ren;
 
@@ -29,6 +35,8 @@ public class GameManager : MonoBehaviour
     private int currentX;
     private int currentY;
     private Vector3[,] points;
+    private string result;
+    public bool isGameOver = false;
 
     private void Awake()
     {
@@ -39,10 +47,17 @@ public class GameManager : MonoBehaviour
         quad_W_Ren = quad_W.GetComponent<Renderer>();
 
         UpdateTurnEffect();
+
+        winPanel.SetActive(false);
     }
 
     private void Update()
     {
+        if (isGameOver)
+            return;
+        else if (!isGameOver)
+            winPanel.SetActive(false);
+        
         UpdateChackSuR();
 
         if (Input.GetMouseButtonDown(0))
@@ -122,9 +137,66 @@ public class GameManager : MonoBehaviour
 
         Instantiate(prefab, points[currentX, currentY], Quaternion.identity);
 
+        if (CheckWin(currentX, currentY))
+        {
+            if (isBlackTurn)
+                result = "흑 승리";
+            else
+                result = "백 승리";
+
+            isGameOver = true;
+
+            winPanel.SetActive(true);
+            resultTXT.text = result;
+
+            return;
+        }
+
         isBlackTurn = !isBlackTurn;
         UpdateTurnEffect();
-    } 
+    }
+
+    private bool CheckWin(int x, int y)
+    {
+        BaduckRType type = pan[x, y];
+
+        if (type == BaduckRType.None)
+            return false;
+
+        if (CountBadukR(x, y, 1, 0, type) + CountBadukR(x, y, -1, 0, type) - 1 >= 5)
+            return true;
+        
+        if (CountBadukR(x, y, 0, 1, type) + CountBadukR(x, y, 0, -1, type) - 1 >= 5)
+        return true;
+
+        if (CountBadukR(x, y, 1, 1, type) + CountBadukR(x, y, -1, -1, type) - 1 >= 5)
+            return true;
+
+        if (CountBadukR(x, y, 1, -1, type) + CountBadukR(x, y, -1, 1, type) - 1 >= 5)
+            return true;
+
+        return false;
+    }
+
+    private int CountBadukR(int startX, int startY, int dirX, int dirY, BaduckRType type)
+    {
+        int count = 0;
+
+        int x = startX;
+        int y = startY;
+
+        while (x >= 0 && x < panSize &&
+            y >= 0 && y < panSize &&
+            pan[x, y] == type)
+        {
+            count++;
+
+            x += dirX;
+            y += dirY;
+        }
+
+        return count;
+    }
 
     private void GeneratePoints()
     {
@@ -180,5 +252,19 @@ public class GameManager : MonoBehaviour
                 Gizmos.DrawSphere(pos, 0.05f);
             }
         }
+    }
+
+    public void ResetBoard()
+    {
+        for (int x = 0; x < panSize; x++)
+        {
+            for (int y = 0; y < panSize; y++)
+            {
+                pan[x, y] = BaduckRType.None;
+            }
+        }
+        isBlackTurn = true;
+
+        UpdateTurnEffect();
     }
 }

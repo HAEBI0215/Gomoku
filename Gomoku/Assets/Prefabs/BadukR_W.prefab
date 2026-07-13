@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3677068296130679416}
   m_Layer: 0
   m_Name: BadukR_W
-  m_TagString: Untagged
+  m_TagString: BadukR
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
