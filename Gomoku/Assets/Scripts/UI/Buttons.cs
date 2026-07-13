@@ -4,32 +4,19 @@ using UnityEngine;
 
 public class Buttons : MonoBehaviour
 {
-    public GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
 
     public void AgainButton()
     {
-        gameManager.isGameOver = false;
-        gameManager.ResetBoard();
-
-        ClearBadukR();
+        gameManager.RestartGame();
     }
 
     public void ExitButton()
     {
         #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+                UnityEditor.EditorApplication.isPlaying = false;
         #else
-            Application.Quit();
+                Application.Quit();
         #endif
     }
-
-    public void ClearBadukR()
-    {
-        GameObject[] stones = GameObject.FindGameObjectsWithTag("BadukR");
-
-        foreach (GameObject stone in stones)
-        {
-            Destroy(stone);
-        }
-    }  
 }
