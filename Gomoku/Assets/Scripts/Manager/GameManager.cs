@@ -63,16 +63,6 @@ public class GameManager : MonoBehaviour
         {
             isGameOver = true;
 
-            foreach (Vector2Int pos in resultManager.WinList)
-            {
-                GameObject stone = panManager.GetBadukRObject(pos.x, pos.y);
-
-                Renderer renderer = stone.GetComponent<Renderer>();
-
-                renderer.material.EnableKeyword("_EMISSION");
-                renderer.material.SetColor("_EmissionColor", Color.yellow * 5f);
-            }
-
             uiManager.ShowWin(false, "장목", badukRCount);
             return;
 
@@ -83,9 +73,9 @@ public class GameManager : MonoBehaviour
 
             foreach (Vector2Int pos in resultManager.WinList)
             {
-                GameObject stone = panManager.GetBadukRObject(pos.x, pos.y);
+                GameObject badukRC = panManager.GetBadukRObject(pos.x, pos.y);
 
-                Renderer renderer = stone.GetComponent<Renderer>();
+                Renderer renderer = badukRC.GetComponent<Renderer>();
 
                 renderer.material.EnableKeyword("_EMISSION");
                 renderer.material.SetColor("_EmissionColor", Color.yellow * 5f);
