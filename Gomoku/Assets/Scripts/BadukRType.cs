@@ -1,4 +1,4 @@
-public enum BaduckRType
+public enum BadukRType
 {
     None,
     Black,

@@ -6,13 +6,15 @@ public class UIManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject winPanel;
     [SerializeField] private TMP_Text resultTXT;
+    [SerializeField] private TMP_Text reasonTXT;
+    [SerializeField] private TMP_Text countTXT;
 
     private void Awake()
     {
         winPanel.SetActive(false);
     }
 
-    public void ShowWin(bool isBlackTurn)
+    public void ShowWin(bool isBlackTurn, string reason, int count)
     {
         winPanel.SetActive(true);
 
@@ -20,6 +22,9 @@ public class UIManager : MonoBehaviour
             resultTXT.text = "흑 승리";
         else
             resultTXT.text = "백 승리";
+
+        reasonTXT.text = $"승리 이유 : {reason}";
+        countTXT.text = $"착수 횟수 : {count}수";
     }
 
     public void HideWin()

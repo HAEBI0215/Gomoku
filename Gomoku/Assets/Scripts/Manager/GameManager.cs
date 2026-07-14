@@ -8,12 +8,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TurnManager turnManager;
     [SerializeField] private ResultManager resultManager;
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private RenjuRuleManager renjuManager;
 
     [Header("바둑알")]
     [SerializeField] private GameObject badukr_B;
     [SerializeField] private GameObject badukr_W;
 
     public bool isGameOver = false;
+    private int badukRCount = 0;
 
     private void Start()
     {
@@ -44,20 +46,28 @@ public class GameManager : MonoBehaviour
         if (turnManager.IsBlackTurn)
         {
             prefab = badukr_B;
-            panManager.SetStone(x, y, BaduckRType.Black);
+            panManager.SetR(x, y, BadukRType.Black);
         }
         else
         {
             prefab = badukr_W;
-            panManager.SetStone(x, y, BaduckRType.White);
+            panManager.SetR(x, y, BadukRType.White);
         }
 
         Instantiate(prefab, panManager.GetPoint(x, y), Quaternion.identity);
+        badukRCount++;
 
+        if (renjuManager.JangMokCheck(x, y))
+        {
+            isGameOver = true;
+            uiManager.ShowWin(false, "장목", badukRCount);
+            return;
+
+        }
         if (resultManager.CheckWin(x, y))
         {
             isGameOver = true;
-            uiManager.ShowWin(turnManager.IsBlackTurn);
+            uiManager.ShowWin(false, "오목", badukRCount);
             return;
         }
 
@@ -72,9 +82,11 @@ public class GameManager : MonoBehaviour
         turnManager.ResetTurn();
         uiManager.HideWin();
 
-        GameObject[] stones = GameObject.FindGameObjectsWithTag("BadukR");
+        badukRCount = 0;
 
-        foreach (GameObject stone in stones)
+        GameObject[] r = GameObject.FindGameObjectsWithTag("BadukR");
+
+        foreach (GameObject stone in r)
         {
             Destroy(stone);
         }

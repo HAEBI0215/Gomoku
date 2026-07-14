@@ -8,9 +8,9 @@ public class ResultManager : MonoBehaviour
 
     public bool CheckWin(int x, int y)
     {
-        BaduckRType type = panManager.GetStone(x, y);
+        BadukRType type = panManager.GetStone(x, y);
 
-        if (type == BaduckRType.None)
+        if (type == BadukRType.None)
             return false;
 
         if (CountBadukR(x, y, 1, 0, type) + CountBadukR(x, y, -1, 0, type) - 1 >= 5)
@@ -28,7 +28,7 @@ public class ResultManager : MonoBehaviour
         return false;
     }
 
-    private int CountBadukR(int startX, int startY, int dirX, int dirY, BaduckRType type)
+    private int CountBadukR(int startX, int startY, int dirX, int dirY, BadukRType type)
     {
         int count = 0;
 

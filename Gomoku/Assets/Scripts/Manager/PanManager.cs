@@ -9,7 +9,7 @@ public class PanManager : MonoBehaviour
     [SerializeField] private int panSize = 15;
     [SerializeField] private float crossSize = 1f;
 
-    private BaduckRType[,] pan;
+    private BadukRType[,] pan;
     private Vector3[,] points;
 
     public int PanSize => panSize;
@@ -17,7 +17,7 @@ public class PanManager : MonoBehaviour
     private void Awake()
     {
         GeneratePoints();
-        pan = new BaduckRType[panSize, panSize];
+        pan = new BadukRType[panSize, panSize];
     }
 
     private void GeneratePoints()
@@ -71,22 +71,22 @@ public class PanManager : MonoBehaviour
         return nearest;
     }
 
-    public BaduckRType GetStone(int x, int y)
+    public BadukRType GetStone(int x, int y)
     {
         return pan[x, y];
     }
 
-    public void SetStone(int x, int y, BaduckRType type)
+    public void SetR(int x, int y, BadukRType type)
     {
         pan[x, y] = type;
     }
 
     public bool IsEmpty(int x, int y)
     {
-        return pan[x, y] == BaduckRType.None;
+        return pan[x, y] == BadukRType.None;
     }
 
-    public BaduckRType[,] GetBoard()
+    public BadukRType[,] GetBoard()
     {
         return pan;
     }
@@ -97,7 +97,7 @@ public class PanManager : MonoBehaviour
         {
             for (int y = 0; y < panSize; y++)
             {
-                pan[x, y] = BaduckRType.None;
+                pan[x, y] = BadukRType.None;
             }
         }
     }
