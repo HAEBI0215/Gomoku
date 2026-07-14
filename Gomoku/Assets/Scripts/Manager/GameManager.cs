@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         if (resultManager.CheckWin(x, y))
         {
             isGameOver = true;
-            uiManager.ShowWin(false, "오목", badukRCount);
+            uiManager.ShowWin(turnManager.IsBlackTurn, "오목", badukRCount);
             return;
         }
 
