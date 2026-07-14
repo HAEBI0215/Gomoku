@@ -6,7 +6,6 @@ public class UIManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject winPanel;
     [SerializeField] private TMP_Text resultTXT;
-    [SerializeField] private TMP_Text reasonTXT;
     [SerializeField] private TMP_Text countTXT;
 
     private void Awake()
@@ -23,7 +22,6 @@ public class UIManager : MonoBehaviour
         else
             resultTXT.text = "백 승리";
 
-        reasonTXT.text = $"승리 이유 : {reason}";
         countTXT.text = $"착수 횟수 : {count}수";
     }
 

@@ -54,12 +54,25 @@ public class GameManager : MonoBehaviour
             panManager.SetR(x, y, BadukRType.White);
         }
 
-        Instantiate(prefab, panManager.GetPoint(x, y), Quaternion.identity);
+        GameObject badukR = Instantiate(prefab, panManager.GetPoint(x, y), Quaternion.identity);
+        panManager.SetBadukRObject(x, y, badukR);
+
         badukRCount++;
 
         if (renjuManager.JangMokCheck(x, y))
         {
             isGameOver = true;
+
+            foreach (Vector2Int pos in resultManager.WinList)
+            {
+                GameObject stone = panManager.GetBadukRObject(pos.x, pos.y);
+
+                Renderer renderer = stone.GetComponent<Renderer>();
+
+                renderer.material.EnableKeyword("_EMISSION");
+                renderer.material.SetColor("_EmissionColor", Color.yellow * 5f);
+            }
+
             uiManager.ShowWin(false, "장목", badukRCount);
             return;
 
@@ -67,6 +80,17 @@ public class GameManager : MonoBehaviour
         if (resultManager.CheckWin(x, y))
         {
             isGameOver = true;
+
+            foreach (Vector2Int pos in resultManager.WinList)
+            {
+                GameObject stone = panManager.GetBadukRObject(pos.x, pos.y);
+
+                Renderer renderer = stone.GetComponent<Renderer>();
+
+                renderer.material.EnableKeyword("_EMISSION");
+                renderer.material.SetColor("_EmissionColor", Color.yellow * 5f);
+            }
+
             uiManager.ShowWin(turnManager.IsBlackTurn, "오목", badukRCount);
             return;
         }

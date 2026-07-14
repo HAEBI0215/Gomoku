@@ -10,6 +10,7 @@ public class PanManager : MonoBehaviour
     [SerializeField] private float crossSize = 1f;
 
     private BadukRType[,] pan;
+    private GameObject[,] badukROBJ;
     private Vector3[,] points;
 
     public int PanSize => panSize;
@@ -18,6 +19,7 @@ public class PanManager : MonoBehaviour
     {
         GeneratePoints();
         pan = new BadukRType[panSize, panSize];
+        badukROBJ = new GameObject[PanSize, PanSize];
     }
 
     private void GeneratePoints()
@@ -89,6 +91,16 @@ public class PanManager : MonoBehaviour
     public BadukRType[,] GetBoard()
     {
         return pan;
+    }
+
+    public void SetBadukRObject(int x, int y, GameObject obj)
+    {
+        badukROBJ[x, y] = obj;
+    }
+
+    public GameObject GetBadukRObject(int x, int y)
+    {
+        return badukROBJ[x, y];
     }
 
     public void ResetBoard()
